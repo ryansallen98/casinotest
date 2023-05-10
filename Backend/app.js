@@ -26,6 +26,8 @@ const port = process.env.PORT || 3000;
 // Serve static files from the frontend folder
 app.use(express.static(path.join(__dirname, '../Frontend')));
 
+// Middleware to parse JSON request body
+app.use(bodyParser.json());
 
 // Connect to databases
 const usersDB = new Datastore({ filename: './database/users.db', autoload: true });
@@ -391,8 +393,6 @@ app.post('/editprofile', (req, res) => {
     }
   });
 });
-
-
 
 // Start the server
 app.listen(port, () => {
