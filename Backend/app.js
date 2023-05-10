@@ -9,7 +9,7 @@ const jwa = require('jwa');
 const { decodeSubjectChain, calculateNet } = require('relay-jwt');
 require('dotenv').config();
 
-const uri = 'https://relay2.cmpct.org/v1?';
+const uri = 'https://sandbox.icorepay.io/v1?';
 
 // create jwa object
 const algorithm = 'ES256';
