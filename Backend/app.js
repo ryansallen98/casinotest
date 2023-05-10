@@ -22,7 +22,7 @@ const decodedChain = decodeSubjectChain(decoded.sub, ecdsa.verify);
 console.log("decodedChain", decodedChain);
 
 const app = express();
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 3000;
 // Serve static files from the frontend folder
 app.use(express.static(path.join(__dirname, '../Frontend')));
 
@@ -133,9 +133,9 @@ app.post('/deposit', async (req, res) => {
     order_key: code,
     merchant_addr: req.body.data.token,
     amount: req.body.data.amount,
-    success_url: 'http://casino.demo.icorepay.io/?success=' + req.body.data.amount,
-    cancel_url: 'http://casino.demo.icorepay.io/?error=error',
-    ipn_url: 'http://casino.demo.icorepay.io/ipn',
+    success_url: 'https://casino.demo.icorepay.io/?success=' + req.body.data.amount,
+    cancel_url: 'https://casino.demo.icorepay.io/?error=error',
+    ipn_url: 'https://casino.demo.icorepay.io/ipn',
     return_json: true,
   };
 
