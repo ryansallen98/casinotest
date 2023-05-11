@@ -11,6 +11,8 @@ require('dotenv').config();
 const https = require('https');
 const fs = require("fs");
 
+const app = express();
+
 const uri = 'https://sandbox.icorepay.io/v1?';
 
 // Set the server port to the value specified in the PORT environment variable,
