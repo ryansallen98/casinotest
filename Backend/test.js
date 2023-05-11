@@ -393,7 +393,7 @@ async function postIpn(req, res) {
                 console.log(`Updated ${req.body.payment_id}`);
                 try {
                     const status = 'paid'
-                    const transactionUpdate = { ipn, status };
+                    const transactionUpdate = { paymentId: req.body.payment_id, status };
                     const response = await axios.post('http://3.86.179.199:5372/update-transaction', transactionUpdate);
                     console.log(response.data);
                     res.send("OK");
