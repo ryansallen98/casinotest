@@ -9,6 +9,7 @@ const jwa = require('jwa');
 const { decodeSubjectChain, calculateNet } = require('relay-jwt');
 require('dotenv').config();
 const https = require('https');
+const fs = require("fs");
 
 const uri = 'https://sandbox.icorepay.io/v1?';
 
