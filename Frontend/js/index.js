@@ -402,7 +402,7 @@ if (successBonusParam) {
     messageDiv.style.display = 'flex';
     messgaeText.innerHTML = `🎉 Congratulations you have deposited $10! To say thank you for joing us we've given you a free $25 deposit bonus!<strong>$${successParam}</strong> in your account.`;
     // Remove the "success" parameter from the URL
-    const newUrl = window.location.href.replace(/\?successbonus*$/, '');
+    const newUrl = window.location.href.replace(/\?successbonus=*$/, '');
     history.replaceState(null, '', newUrl);
 }
 
