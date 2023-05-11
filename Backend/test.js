@@ -12,7 +12,7 @@ const https = require('https');
 const fs = require("fs");
 
 const app = express();
-const uri = 'https://sandbox.icorepay.io/v1?';
+const uri = 'https://pay.janex1.org/v1?';
 
 // create jwa object
 const algorithm = 'ES256';
@@ -157,7 +157,7 @@ app.post('/deposit', async (req, res) => {
         invoice: invoiceId,
         order_key: code,
         merchant_addr: req.body.data.token,
-        amount: req.body.data.amount,
+        amount: netAmountForDollar,
         success_url: 'https://casino.icorepay.io/?success=' + req.body.data.amount,
         cancel_url: 'https://casino.icorepay.io/?error=error',
         ipn_url: 'https://casino.icorepay.io/ipn',
@@ -211,7 +211,7 @@ app.post('/deposit-bonus', async (req, res) => {
         invoice: invoiceId,
         order_key: code,
         merchant_addr: req.body.data.token,
-        amount: 10,
+        amount: netAmountForDollar,
         success_url: 'https://casino.icorepay.io/?successbonus=true',
         cancel_url: 'https://casino.icorepay.io/?error=error',
         ipn_url: 'https://casino.icorepay.io/ipn',
