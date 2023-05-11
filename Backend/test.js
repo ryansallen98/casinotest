@@ -395,7 +395,7 @@ async function postIpn(req, res) {
     try {
         const status = 'paid'
         const transactionUpdate = { ipn, status };
-        const response = await axios.post('http://localhost:3000/update-transaction', data);
+        const response = await axios.post('http://localhost:3000/update-transaction', transactionUpdate);
         console.log(response.data);
     } catch (error) {
         console.error(error);
