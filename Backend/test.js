@@ -381,12 +381,60 @@ app.post('/signup-bonus', async (req, res) => {
     }
 })
 
+const data = {
+    merchant: [
+        'etoken:qp483wunuvy7nnnv5fr2ev8d60q9ras0yvz9ct0gzz',
+        'etoken:qqgvdfd7ef9vle67hftk9majy5ra2creq5kfs2ht3w',
+        'ecash:qq0ajklk9ah3nh75jmcfkvk02kpdawurks6apl7ppy',
+        'ecash:qz22sep6nz9psyj7hf3fwdlaehy2rhjk7gy0rjlll0',
+        'ecash:qzu3kjrgpg2ndsvlmcjum5x3yttpm29taqspqjvy2p',
+        'etoken:qq75sdj4hr7924nvunwksz65tg2uys3yl5txdswmrq',
+        'ecash:qqd7aeu8naxtgflfj4vpnxc3dghhyw890cvx26w3en',
+        'ecash:qzlxyxc653v0wfjc8n4z839029dggmc9kggdfwmfu9',
+        'etoken:qzh838yneyzq2kc6mz93cezkghvlq3ghs52c7nsmet'
+    ],
+    invoice: 'v2gp87',
+    merchant_name: 'iCore Pay',
+    custom: 'x5oit',
+    ipn_type: 'simple',
+    currency1: 'USD',
+    amount1: [
+        '5', '100',
+        '0.735', '0.735',
+        '1.47', '0.1838',
+        '0.3675', '0.1838',
+        '1.6301'
+    ],
+    status: '100',
+    status_text: 'Invoice paid',
+    txn_id: '5f716952d302928fbe26dbed5379521a62e452f500f981bcc74704509c511f45',
+    payment_id: 'MBFEN'
+}
+
 
 async function postIpn(req, res) {
     const ipAddress = req.connection.remoteAddress;
     console.log(ipAddress);
     const ipn = req.body;
     console.log(ipn)
+    invoiceDB.find({ invoice: req.body.invoice, custom: req.body.custom }, function (err, docs) {
+        if (err) {
+            // Error message if the paymentID doesn't match
+            console.log("Error fetching data from the database: ", err);
+        } else {
+            paidDB.insert(ipn)
+        }
+    });
+    invoiceDB.update(
+        { invoice: req.body.payment_id }, { $set: { status: 'paid' } }, { upsert: false }, (err, numReplaced) => {
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                console.log(`Updated ${req.body.payment_id}`);
+                res.json({ message: "Payment was successfull!" });
+            }
+        });
     res.send("OK");
 }
 
