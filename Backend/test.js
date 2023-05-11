@@ -187,11 +187,7 @@ app.post('/deposit', async (req, res) => {
 
 
     try {
-        const response = await axios.get(getUrl, {
-            headers: {
-                'Authorization': `Bearer ${JWT}`
-            }
-        });
+        const response = await axios.get(getUrl);
         response.data.user = req.body.data.user;
         invoiceDB.insert(response.data);
         let payURL = response.data.paymentUrl;
@@ -381,102 +377,12 @@ app.post('/signup-bonus', async (req, res) => {
     }
 })
 
-const data = {
-    merchant: [
-        'etoken:qp483wunuvy7nnnv5fr2ev8d60q9ras0yvz9ct0gzz',
-        'etoken:qqgvdfd7ef9vle67hftk9majy5ra2creq5kfs2ht3w',
-        'ecash:qq0ajklk9ah3nh75jmcfkvk02kpdawurks6apl7ppy',
-        'ecash:qz22sep6nz9psyj7hf3fwdlaehy2rhjk7gy0rjlll0',
-        'ecash:qzu3kjrgpg2ndsvlmcjum5x3yttpm29taqspqjvy2p',
-        'etoken:qq75sdj4hr7924nvunwksz65tg2uys3yl5txdswmrq',
-        'ecash:qqd7aeu8naxtgflfj4vpnxc3dghhyw890cvx26w3en',
-        'ecash:qzlxyxc653v0wfjc8n4z839029dggmc9kggdfwmfu9',
-        'etoken:qzh838yneyzq2kc6mz93cezkghvlq3ghs52c7nsmet'
-    ],
-    invoice: 'v2gp87',
-    merchant_name: 'iCore Pay',
-    custom: 'x5oit',
-    ipn_type: 'simple',
-    currency1: 'USD',
-    amount1: [
-        '5', '100',
-        '0.735', '0.735',
-        '1.47', '0.1838',
-        '0.3675', '0.1838',
-        '1.6301'
-    ],
-    status: '100',
-    status_text: 'Invoice paid',
-    txn_id: '5f716952d302928fbe26dbed5379521a62e452f500f981bcc74704509c511f45',
-    payment_id: 'MBFEN'
-}
-
-const olddata = {
-    "network": "main",
-    "currency": "etoken",
-    "requiredFeeRate": 1,
-    "outputs": [
-        {
-            "script": "6a04534c500001010453454e4420744354f928fa48de87182c4024e2c4acbd3c34f42ce9d679f541213688e584b108000000000000271008000000000000004608000000000000004608000000000000008c08000000000000001208000000000000002308000000000000001208000000000000009b",
-            "amount": 0
-        },
-        {
-            "amount": 546,
-            "script": "76a9146a78bb93e309e9ce6ca246acb0edd3c051f60f2388ac"
-        },
-        {
-            "amount": 546,
-            "script": "76a9141fd95bf62f6f19dfd496f09b32cf5582debb83b488ac"
-        },
-        {
-            "amount": 546,
-            "script": "76a91494a8643a988a18125eba629737fdcdc8a1de56f288ac"
-        },
-        {
-            "amount": 546,
-            "script": "76a914b91b48680a1536c19fde25cdd0d122d61da8abe888ac"
-        },
-        {
-            "amount": 546,
-            "script": "76a9143d483655b8fc55566ce4dd680b545a15c24224fd88ac"
-        },
-        {
-            "amount": 546,
-            "script": "76a9141beee7879f4cb427e99558199b116a2f7238e57e88ac"
-        },
-        {
-            "amount": 546,
-            "script": "76a914be621b1aa458f726583cea23c4af515a846f05b288ac"
-        },
-        {
-            "amount": 546, 
-            "script": "76a914ae789c93c904055b1ad88b1c645645d9f045178588ac"
-        }
-    ], 
-    "time": "2023-05-10T13:40:30.446Z", 
-    "expires": "2023-05-10T13:55:30.446Z", 
-    "memo": "Payment to iCore Pay for order #h1mm2e", 
-    "paymentUrl": "https://pay.badger.cash/i/VYG3E", 
-    "paymentId": "VYG3E", 
-    "status": "open", 
-    "callback": { "success_url": "https://casino.demo.icorepay.io/?success=1", "cancel_url": "https://casino.demo.icorepay.io/?error=error", "ipn_url": "https://casino.demo.icorepay.io/ipn", "ipn_body": { "merchant": ["etoken:qp483wunuvy7nnnv5fr2ev8d60q9ras0yvz9ct0gzz", "ecash:qq0ajklk9ah3nh75jmcfkvk02kpdawurks6apl7ppy", "ecash:qz22sep6nz9psyj7hf3fwdlaehy2rhjk7gy0rjlll0", "ecash:qzu3kjrgpg2ndsvlmcjum5x3yttpm29taqspqjvy2p", "etoken:qq75sdj4hr7924nvunwksz65tg2uys3yl5txdswmrq", "ecash:qqd7aeu8naxtgflfj4vpnxc3dghhyw890cvx26w3en", "ecash:qzlxyxc653v0wfjc8n4z839029dggmc9kggdfwmfu9", "etoken:qzh838yneyzq2kc6mz93cezkghvlq3ghs52c7nsmet"], "invoice": "h1mm2e", "merchant_name": "iCore Pay", "custom": "ax8axr", "ipn_type": "simple", "currency1": "USD", "amount1": ["1", 0.007, 0.007, 0.014, 0.0018, 0.0035, 0.0018, 0.0155] } }, "user": "ryanallen98", "_id": "SovHR0OYZMbmjlXw"
-}
-
-
 
 async function postIpn(req, res) {
     const ipAddress = req.connection.remoteAddress;
     console.log(ipAddress);
     const ipn = req.body;
     console.log(ipn)
-    invoiceDB.find({ paymentId: req.body.invoice, custom: req.body.custom }, function (err, docs) {
-        if (err) {
-            // Error message if the paymentID doesn't match
-            console.log("Error fetching data from the database: ", err);
-        } else {
-            paidDB.insert(ipn)
-        }
-    });
     invoiceDB.update(
         { invoice: req.body.payment_id }, { $set: { status: 'paid' } }, { upsert: false }, (err, numReplaced) => {
             if (err) {
