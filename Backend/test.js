@@ -374,7 +374,7 @@ async function postIpn(req, res) {
                             { username: updatedRecord.user },
                             {
                                 $inc: {
-                                    mainBalance: parseFloat(req.body.data.amount),
+                                    mainBalance: parseFloat(req.body.amount1[0]),
                                     bonusBalance: 0,
                                 },
                             },
@@ -384,10 +384,6 @@ async function postIpn(req, res) {
                                     console.log(err);
                                     return;
                                 } else {
-                                    const timestamp = new Date();
-                                    req.body.data.timestamp = timestamp;
-                                    req.body.data.newAmount = updatedDoc.mainBalance;
-                                    balanceHistoryDB.insert(req.body.data);
                                     console.log(`${numReplaced} document(s) updated`);
                                 }
                             }
