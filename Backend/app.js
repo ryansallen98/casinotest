@@ -19,6 +19,8 @@ const options = {
   cert: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/fullchain.pem')
 };
 
+const app = express();
+
 // Set up the HTTPS server
 const server = https.createServer(options, app);
 
@@ -32,7 +34,7 @@ const decoded = jwt.decode(JWT);
 const decodedChain = decodeSubjectChain(decoded.sub, ecdsa.verify);
 console.log("decodedChain", decodedChain);
 
-const app = express();
+
 const port = process.env.PORT || 80;
 // Serve static files from the frontend folder
 app.use(express.static(path.join(__dirname, '../Frontend')));
