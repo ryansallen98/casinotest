@@ -180,9 +180,10 @@ app.post('/deposit', async (req, res) => {
     try {
         const response = await axios.get(getUrl, {
             headers: {
-              'Authorization': `Bearer ${JWT}`
+                'Authorization': `Bearer ${JWT}`
             }
-          });
+        });
+        response.data.amount = req.body.data.amount;
         response.data.user = req.body.data.user;
         invoiceDB.insert(response.data);
         let payURL = response.data.paymentUrl;
@@ -234,9 +235,10 @@ app.post('/deposit-bonus', async (req, res) => {
     try {
         const response = await axios.get(getUrl, {
             headers: {
-              'Authorization': `Bearer ${JWT}`
+                'Authorization': `Bearer ${JWT}`
             }
-          });
+        });
+        response.data.amount = req.body.data.amount;
         response.data.user = req.body.data.user;
         response.data.bonus = 25;
         invoiceDB.insert(response.data);
@@ -369,13 +371,13 @@ async function postIpn(req, res) {
                         console.log(err);
                     } else {
                         console.log(updatedRecord)
-                        const bonusTruth = updatedRecord.bonus || 0;
+                        const bonus = updatedRecord.bonus || 0;
                         usersDB.update(
                             { username: updatedRecord.user },
                             {
                                 $inc: {
-                                    mainBalance: parseFloat(req.body.amount1[0]),
-                                    bonusBalance: bonusTruth,
+                                    mainBalance: parseFloat(updatedRecord.amount),
+                                    bonusBalance: bonus,
                                 },
                             },
                             { returnUpdatedDocs: true },
