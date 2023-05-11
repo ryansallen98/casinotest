@@ -204,29 +204,6 @@ app.post('/deposit-bonus', async (req, res) => {
     // append the query parameters to the URI
     const getUrl = `${uri}${queryParams}`;
     console.log(getUrl)
-    usersDB.update(
-        { username: req.body.data.user },
-        {
-            $inc: {
-                mainBalance: parseFloat(req.body.data.amount),
-                bonusBalance: 500,
-            },
-        },
-        { returnUpdatedDocs: true },
-        (err, numReplaced, updatedDoc) => {
-            if (err) {
-                console.log(err);
-                return;
-            } else {
-                const timestamp = new Date();
-                req.body.data.timestamp = timestamp;
-                req.body.data.newAmount = updatedDoc.mainBalance;
-                balanceHistoryDB.insert(req.body.data);
-                console.log(`${numReplaced} document(s) updated`);
-            }
-        }
-    );
-
     try {
         const response = await axios.get(getUrl, {
             headers: {
