@@ -263,7 +263,12 @@ signupForm.addEventListener('submit', async (event) => {
         // Store the token in a cookie or local storage
         document.cookie = `token=${token}; path=/`;
         // Redirect to the home page
-        window.location.href = '/';
+        if (window.location.href === 'https://casino.icorepay.io.com/') {
+            window.location.href = '/';
+        } else {
+            
+        }
+
     } else {
         const { error } = await response.json();
         // Display an error message to the user
@@ -298,7 +303,7 @@ depositForm.addEventListener('submit', async (event) => {
 bonus.addEventListener('click', async (event) => {
     document.getElementById('deposit-button').defaultValue = 'Loading...'
     const data = {
-        "amount": 1,
+        "amount": 10,
         "user": document.getElementById('username-ac').innerHTML,
         "token": document.getElementById('token-ac').innerHTML
     };
@@ -402,7 +407,7 @@ if (successBonusParam) {
     messageDiv.style.display = 'flex';
     messgaeText.innerHTML = `🎉 Congratulations you have deposited <strong>$10!</strong> To say thank you for joining us we've given you a free <strong>$25</strong> deposit bonus!`;
     // Remove the "success" parameter from the URL
-    const newUrl = window.location.href.replace(/\?successbonus=*$/, '');
+    const newUrl = window.location.href.replace(/\?successbonus=.+/, '');
     history.replaceState(null, '', newUrl);
 }
 

@@ -12,8 +12,18 @@ const https = require('https');
 const fs = require("fs");
 
 const app = express();
-
 const uri = 'https://sandbox.icorepay.io/v1?';
+
+// create jwa object
+const algorithm = 'ES256';
+const ecdsa = jwa(algorithm);
+
+// decode the JWT
+const JWT = process.env.JWT;
+const decoded = jwt.decode(JWT);
+const decodedChain = decodeSubjectChain(decoded.sub, ecdsa.verify);
+console.log("decodedChain", decodedChain);
+
 
 // Set the server port to the value specified in the PORT environment variable,
 // or to 3000 if PORT is not set
