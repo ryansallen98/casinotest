@@ -185,7 +185,7 @@ app.post('/deposit-bonus', async (req, res) => {
         order_key: code,
         merchant_addr: req.body.data.token,
         amount: 10,
-        success_url: 'https://casino.icorepay.io/?successbonus1',
+        success_url: 'https://casino.icorepay.io/?successbonus',
         cancel_url: 'https://casino.icorepay.io/?error=error',
         ipn_url: 'https://casino.icorepay.io/ipn',
         return_json: true,

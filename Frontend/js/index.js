@@ -383,6 +383,7 @@ logoutButton.addEventListener('click', function () {
 });
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+
 const successParam = urlParams.get('success');
 if (successParam) {
     const messageDiv = document.getElementById('message');
@@ -391,6 +392,17 @@ if (successParam) {
     messgaeText.innerHTML = `🎉 Congratulations! You have successfully deposited <strong>$${successParam}</strong> in your account.`;
     // Remove the "success" parameter from the URL
     const newUrl = window.location.href.replace(/\?success=.*$/, '');
+    history.replaceState(null, '', newUrl);
+}
+
+const successBonusParam = urlParams.get('successbonus');
+if (successBonusParam) {
+    const messageDiv = document.getElementById('message');
+    const messgaeText = document.getElementById('message-text');
+    messageDiv.style.display = 'flex';
+    messgaeText.innerHTML = `🎉 Congratulations you have deposited $10! To say thank you for joing us we've given you a free $25 deposit bonus!<strong>$${successParam}</strong> in your account.`;
+    // Remove the "success" parameter from the URL
+    const newUrl = window.location.href.replace(/\?successbonus*$/, '');
     history.replaceState(null, '', newUrl);
 }
 
