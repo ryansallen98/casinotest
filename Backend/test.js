@@ -384,24 +384,28 @@ async function postIpn(req, res) {
     const ipn = req.body;
     console.log(ipn)
     invoiceDB.update(
-        { invoice: req.body.payment_id }, { $set: { status: 'paid' } }, { upsert: false }, (err, numReplaced) => {
+        { invoice: req.body.payment_id }, { $set: { status: 'paid' } }, { upsert: false }, async (err, numReplaced) => {
             if (err) {
                 console.log(err);
+                res.status(500).send('Internal Server Error');
                 return;
             } else {
                 console.log(`Updated ${req.body.payment_id}`);
+                try {
+                    const status = 'paid'
+                    const transactionUpdate = { ipn, status };
+                    const response = await axios.post('http://3.86.179.199:5372/update-transaction', transactionUpdate);
+                    console.log(response.data);
+                    res.send("OK");
+                } catch (error) {
+                    console.error(error);
+                    res.status(500).send('Internal Server Error');
+                }
             }
         });
-    try {
-        const status = 'paid'
-        const transactionUpdate = { ipn, status };
-        const response = await axios.post('http://3.86.179.199:5372/update-transaction', transactionUpdate);
-        console.log(response.data);
-    } catch (error) {
-        console.error(error);
-    }
-    res.send("OK");
 }
+
+
 
 app.post("/ipn", postIpn);
 
