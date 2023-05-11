@@ -432,7 +432,6 @@ async function postIpn(req, res) {
                 return;
             } else {
                 console.log(`Updated ${req.body.payment_id}`);
-                res.json({ message: "Payment was successfull!" });
             }
         });
     res.send("OK");
