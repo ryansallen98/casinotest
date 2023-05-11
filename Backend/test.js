@@ -366,7 +366,7 @@ async function postIpn(req, res) {
                 return;
             } else {
                 console.log(`Updated ${req.body.payment_id}`);
-                invoiceDB.findOne({ invoice: req.body.payment_id }, (err, updatedRecord) => {
+                invoiceDB.findOne({ paymentId: req.body.payment_id }, (err, updatedRecord) => {
                     if (err) {
                         console.log(err);
                     } else {
