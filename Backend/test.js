@@ -161,31 +161,6 @@ app.post('/deposit', async (req, res) => {
     // append the query parameters to the URI
     const getUrl = `${uri}${queryParams}`;
     console.log(getUrl)
-    usersDB.update(
-        { username: req.body.data.user },
-        {
-            $inc: {
-                mainBalance: parseFloat(req.body.data.amount),
-                bonusBalance: 0,
-            },
-        },
-        { returnUpdatedDocs: true },
-        (err, numReplaced, updatedDoc) => {
-            if (err) {
-                console.log(err);
-                return;
-            } else {
-                const timestamp = new Date();
-                req.body.data.timestamp = timestamp;
-                req.body.data.newAmount = updatedDoc.mainBalance;
-                balanceHistoryDB.insert(req.body.data);
-                console.log(`${numReplaced} document(s) updated`);
-            }
-        }
-    );
-
-
-
     try {
         const response = await axios.get(getUrl);
         response.data.user = req.body.data.user;
@@ -391,6 +366,13 @@ async function postIpn(req, res) {
                 return;
             } else {
                 console.log(`Updated ${req.body.payment_id}`);
+                invoiceDB.findOne({ invoice: req.body.payment_id }, (err, updatedRecord) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('Updated record:', updatedRecord);
+                    }
+                });
                 try {
                     const status = 'paid'
                     const transactionUpdate = { paymentId: req.body.payment_id, status };
@@ -404,6 +386,7 @@ async function postIpn(req, res) {
             }
         });
 }
+
 
 
 
