@@ -337,7 +337,7 @@ async function postIpn(req, res) {
                     if (err) {
                         console.log(err);
                     } else {
-                        const bonusTruth = req.body.bonus || 0;
+                        const bonusTruth = updatedRecord.bonus || 0;
                         usersDB.update(
                             { username: updatedRecord.user },
                             {
