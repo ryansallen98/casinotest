@@ -400,7 +400,7 @@ if (successBonusParam) {
     const messageDiv = document.getElementById('message');
     const messgaeText = document.getElementById('message-text');
     messageDiv.style.display = 'flex';
-    messgaeText.innerHTML = `🎉 Congratulations you have deposited <strong>$10!</strong> To say thank you for joining us we've given you a free <strong>$25<s/>trong> deposit bonus!`;
+    messgaeText.innerHTML = `🎉 Congratulations you have deposited <strong>$10!</strong> To say thank you for joining us we've given you a free <strong>$25</strong> deposit bonus!`;
     // Remove the "success" parameter from the URL
     const newUrl = window.location.href.replace(/\?successbonus=*$/, '');
     history.replaceState(null, '', newUrl);
