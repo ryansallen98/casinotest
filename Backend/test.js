@@ -167,6 +167,7 @@ app.post('/deposit', async (req, res) => {
         invoiceDB.insert(response.data);
         let payURL = response.data.paymentUrl;
         console.log(response.data, response.data.callback.ipn_body)
+
         res.json({ payURL });
     } catch (error) {
         console.log(error.code);
@@ -336,26 +337,6 @@ async function postIpn(req, res) {
                     if (err) {
                         console.log(err);
                     } else {
-                        const mainBalanceBeforeReset = [];
-                        usersDB.find({ username: updatedRecord.user }, (err, docs) => {
-                            if (err) {
-                                console.log(err);
-                                return;
-                            } else {
-                                mainBalanceBeforeReset.push(docs[0].mainBalance);
-                            }
-                        });
-                        const newAmount = mainBalanceBeforeReset[0] + response.data.callback.ipn_body.amount1[0];
-                        
-                        const timestamp = new Date();
-                        const data = {
-                            "amount": response.data.callback.ipn_body.amount1[0],
-                            "user": response.data.user,
-                            "token": req.body.data.token,
-                            "timestamp": timestamp,
-                            "newAmount": newAmount
-                        }
-                        balanceHistoryDB.insert(data);
                         const bonusTruth = updatedRecord.bonus || 0;
                         usersDB.update(
                             { username: updatedRecord.user },
