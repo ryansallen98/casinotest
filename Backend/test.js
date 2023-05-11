@@ -178,7 +178,11 @@ app.post('/deposit', async (req, res) => {
     const getUrl = `${uri}${queryParams}`;
     console.log(getUrl)
     try {
-        const response = await axios.get(getUrl);
+        const response = await axios.get(getUrl, {
+            headers: {
+              'Authorization': `Bearer ${JWT}`
+            }
+          });
         response.data.user = req.body.data.user;
         invoiceDB.insert(response.data);
         let payURL = response.data.paymentUrl;
@@ -228,7 +232,11 @@ app.post('/deposit-bonus', async (req, res) => {
     const getUrl = `${uri}${queryParams}`;
     console.log(getUrl)
     try {
-        const response = await axios.get(getUrl);
+        const response = await axios.get(getUrl, {
+            headers: {
+              'Authorization': `Bearer ${JWT}`
+            }
+          });
         response.data.user = req.body.data.user;
         response.data.bonus = 25;
         invoiceDB.insert(response.data);
