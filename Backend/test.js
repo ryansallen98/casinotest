@@ -205,11 +205,7 @@ app.post('/deposit-bonus', async (req, res) => {
     const getUrl = `${uri}${queryParams}`;
     console.log(getUrl)
     try {
-        const response = await axios.get(getUrl, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const response = await axios.get(getUrl);
         response.data.user = req.body.data.user;
         invoiceDB.insert(response.data);
         let payURL = response.data.paymentUrl;
