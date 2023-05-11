@@ -146,9 +146,9 @@ app.post('/deposit', async (req, res) => {
     order_key: code,
     merchant_addr: req.body.data.token,
     amount: req.body.data.amount,
-    success_url: 'https://casino.demo.icorepay.io/?success=' + req.body.data.amount,
-    cancel_url: 'https://casino.demo.icorepay.io/?error=error',
-    ipn_url: 'https://casino.demo.icorepay.io/ipn',
+    success_url: 'https://casino.icorepay.io/?success=' + req.body.data.amount,
+    cancel_url: 'https://casino.icorepay.io/?error=error',
+    ipn_url: 'https://casino.icorepay.io/ipn',
     return_json: true,
   };
 
@@ -225,9 +225,9 @@ app.post('/deposit-bonus', async (req, res) => {
     order_key: code,
     merchant_addr: req.body.data.token,
     amount: 1,
-    success_url: 'https://casino.demo.icorepay.io/?successbonus1',
-    cancel_url: 'https://casino.demo.icorepay.io/?error=error',
-    ipn_url: 'https://casino.demo.icorepay.io/ipn',
+    success_url: 'https://casino.icorepay.io/?successbonus1',
+    cancel_url: 'https://casino.icorepay.io/?error=error',
+    ipn_url: 'https://casino.icorepay.io/ipn',
     return_json: true,
   };
 
