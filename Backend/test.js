@@ -179,19 +179,12 @@ app.post('/deposit-bonus', async (req, res) => {
     console.log(req.body.data);
     const code = Math.random().toString(36).substring(7);
     const invoiceId = Math.random().toString(36).substring(7);
-    const buxDecimals = 4;
-    const badgerFixedFee = 0.5;
-    const badgerVarFee = 0.06;
-    const amountWithoutBadgerFees = (req.body.data.amount - badgerFixedFee) / (1 + badgerVarFee);
-    const netAmountForDollar = +calculateNet(amountWithoutBadgerFees, decodedChain, buxDecimals).toFixed(4);
-    console.log(amountWithoutBadgerFees, netAmountForDollar);
-
     const params = {
         merchant_name: 'iCore Pay',
         invoice: invoiceId,
         order_key: code,
         merchant_addr: req.body.data.token,
-        amount: 1,
+        amount: 10,
         success_url: 'https://casino.icorepay.io/?successbonus1',
         cancel_url: 'https://casino.icorepay.io/?error=error',
         ipn_url: 'https://casino.icorepay.io/ipn',
@@ -403,9 +396,6 @@ async function postIpn(req, res) {
             }
         });
 }
-
-
-
 
 app.post("/ipn", postIpn);
 
