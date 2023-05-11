@@ -8,8 +8,18 @@ const ecashaddr = require('ecashaddrjs');
 const jwa = require('jwa');
 const { decodeSubjectChain, calculateNet } = require('relay-jwt');
 require('dotenv').config();
+const https = require('https');
 
 const uri = 'https://sandbox.icorepay.io/v1?';
+
+// Set up options for the HTTPS server
+const options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/fullchain.pem')
+};
+
+// Set up the HTTPS server
+const server = https.createServer(options, app);
 
 // create jwa object
 const algorithm = 'ES256';
@@ -22,7 +32,7 @@ const decodedChain = decodeSubjectChain(decoded.sub, ecdsa.verify);
 console.log("decodedChain", decodedChain);
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 // Serve static files from the frontend folder
 app.use(express.static(path.join(__dirname, '../Frontend')));
 
@@ -395,8 +405,13 @@ app.post('/editprofile', (req, res) => {
 });
 
 
-
+/*
 // Start the server
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+});*/
+
+// Start the HTTPS server
+server.listen(443, () => {
+  console.log('HTTPS server running on port 443');
 });

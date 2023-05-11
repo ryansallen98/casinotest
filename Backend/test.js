@@ -17,7 +17,16 @@ const uri = 'https://relay.divvyden.com/v1?';
 
 // Set the server port to the value specified in the PORT environment variable,
 // or to 3000 if PORT is not set
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
+
+// Set up options for the HTTPS server
+const options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/fullchain.pem')
+  };
+
+// Set up the HTTPS server
+const server = https.createServer(options, app);
 
 
 // Set up JSON body parsing middleware with the specified MIME types and maximum
@@ -437,8 +446,7 @@ app.use((req, res, next) => {
   res.status(404).redirect("/login");
 });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-  });
-  
+// Start the HTTPS server
+server.listen(443, () => {
+  console.log('HTTPS server running on port 443');
+});
