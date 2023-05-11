@@ -28,5 +28,5 @@ Content-Type: application/json
     "status": "100",
     "status_text": "Invoice paid",
     "txn_id": "5f716952d302928fbe26dbed5379521a62e452f500f981bcc74704509c511f45",
-    "payment_id": "VYG3E"
+    "payment_id": "BKERY"
 }
