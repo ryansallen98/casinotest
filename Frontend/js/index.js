@@ -433,31 +433,3 @@ cancelButton.addEventListener('click', () => {
     profileInputToken.value = profileTextToken.innerText
     document.getElementById('w-node-_7ba9df2c-f240-9ba2-6940-8da9e3e7ad9f-ff1b0340').style.display = 'none'
 })
-
-signupDepositForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const formData = new FormData(signupForm);
-    const userData = {};
-    // Loop through the form elements and add them to the userData object
-    for (let element of formData) {
-        userData[element[0]] = element[1];
-    }
-    // Send the user data to the server
-    const response = await fetch('/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData)
-    });
-    if (response.ok) {
-        const { token } = await response.json();
-        // Store the token in a cookie or local storage
-        document.cookie = `token=${token}; path=/`;
-        // Redirect to the home page
-        window.location.href = '/';
-    } else {
-        const { error } = await response.json();
-        // Display an error message to the user
-        const errorElement = document.querySelector('#login-error');
-        errorElement.textContent = error;
-    }
-});
