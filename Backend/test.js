@@ -12,7 +12,7 @@ const https = require('https');
 const fs = require("fs");
 
 const app = express();
-const uri = 'https://relay2.cmpct.org/v1?';
+const uri = 'https://sandbox.icorepay.io/v1?';
 
 // create jwa object
 const algorithm = 'ES256';
