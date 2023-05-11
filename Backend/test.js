@@ -168,6 +168,27 @@ app.post('/deposit', async (req, res) => {
         let payURL = response.data.paymentUrl;
         console.log(response.data, response.data.callback.ipn_body)
 
+        const mainBalanceBeforeReset = [];
+        usersDB.find({ username: req.body.data.user }, (err, docs) => {
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                mainBalanceBeforeReset.push(docs[0].mainBalance);
+            }
+        });
+        const newAmount = mainBalanceBeforeReset[0] + response.data.callback.ipn_body.amount1[0];
+
+        const timestamp = new Date();
+        const data = {
+            "amount": response.data.callback.ipn_body.amount1[0],
+            "user": response.data.user,
+            "token": req.body.data.token,
+            "timestamp": timestamp,
+            "newAmount": newAmount
+        }
+        balanceHistoryDB.insert(data);
+
         res.json({ payURL });
     } catch (error) {
         console.log(error.code);
