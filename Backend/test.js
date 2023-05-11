@@ -135,12 +135,6 @@ app.post('/deposit', async (req, res) => {
     console.log(req.body.data);
     const code = Math.random().toString(36).substring(7);
     const invoiceId = Math.random().toString(36).substring(7);
-    const buxDecimals = 4;
-    const badgerFixedFee = 0.5;
-    const badgerVarFee = 0.06;
-    const amountWithoutBadgerFees = (req.body.data.amount - badgerFixedFee) / (1 + badgerVarFee);
-    const netAmountForDollar = +calculateNet(amountWithoutBadgerFees, decodedChain, buxDecimals).toFixed(4);
-    console.log(amountWithoutBadgerFees, netAmountForDollar);
 
     const params = {
         merchant_name: 'iCore Pay',
