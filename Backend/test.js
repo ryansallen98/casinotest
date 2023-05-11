@@ -207,6 +207,7 @@ app.post('/deposit-bonus', async (req, res) => {
     try {
         const response = await axios.get(getUrl);
         response.data.user = req.body.data.user;
+        response.data.bonus = 25;
         invoiceDB.insert(response.data);
         let payURL = response.data.paymentUrl;
         console.log(response.data)
@@ -336,12 +337,13 @@ async function postIpn(req, res) {
                     if (err) {
                         console.log(err);
                     } else {
+                        const bonusTruth = req.body.bonus || 0;
                         usersDB.update(
                             { username: updatedRecord.user },
                             {
                                 $inc: {
                                     mainBalance: parseFloat(req.body.amount1[0]),
-                                    bonusBalance: 0,
+                                    bonusBalance: bonusTruth,
                                 },
                             },
                             { returnUpdatedDocs: true },
