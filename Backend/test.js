@@ -15,10 +15,13 @@ const jsonOptions = {
     type: ["*/json"],
     limit: "750kb",
   }
-  app.use(express.json(jsonOptions));
+app.use(express.json(jsonOptions));
 
-// Middleware to parse JSON request body
-app.use(bodyParser.json());
+// Set up form data parsing middleware
+app.use(express.urlencoded({ extended: true }));
+
+// Use body-parser to parse incoming request data
+app.use(bodyParser.urlencoded({ extended: false }));
 
 async function newPostIPN (req, res) {
   const ipAddress = req.connection.remoteAddress;
