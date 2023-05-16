@@ -8,21 +8,8 @@ const ecashaddr = require('ecashaddrjs');
 const jwa = require('jwa');
 const { decodeSubjectChain, calculateNet } = require('relay-jwt');
 require('dotenv').config();
-const https = require('https');
-const fs = require("fs");
 
-const uri = 'https://sandbox.icorepay.io/v1?';
-
-// Set up options for the HTTPS server
-const options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/fullchain.pem')
-};
-
-const app = express();
-
-// Set up the HTTPS server
-const server = https.createServer(options, app);
+const uri = 'https://test.icorepay.io/v1?';
 
 // create jwa object
 const algorithm = 'ES256';
@@ -34,8 +21,8 @@ const decoded = jwt.decode(JWT);
 const decodedChain = decodeSubjectChain(decoded.sub, ecdsa.verify);
 console.log("decodedChain", decodedChain);
 
-
-const port = process.env.PORT || 80;
+const app = express();
+const port = process.env.PORT || 3000;
 // Serve static files from the frontend folder
 app.use(express.static(path.join(__dirname, '../Frontend')));
 
@@ -146,9 +133,9 @@ app.post('/deposit', async (req, res) => {
     order_key: code,
     merchant_addr: req.body.data.token,
     amount: req.body.data.amount,
-    success_url: 'https://casino.icorepay.io/?success=' + req.body.data.amount,
-    cancel_url: 'https://casino.icorepay.io/?error=error',
-    ipn_url: 'https://casino.icorepay.io/ipn',
+    success_url: 'https://casino.demo.icorepay.io/?success=' + req.body.data.amount,
+    cancel_url: 'https://casino.demo.icorepay.io/?error=error',
+    ipn_url: 'https://casino.demo.icorepay.io/ipn',
     return_json: true,
   };
 
@@ -225,9 +212,9 @@ app.post('/deposit-bonus', async (req, res) => {
     order_key: code,
     merchant_addr: req.body.data.token,
     amount: 1,
-    success_url: 'https://casino.icorepay.io/?successbonus1',
-    cancel_url: 'https://casino.icorepay.io/?error=error',
-    ipn_url: 'https://casino.icorepay.io/ipn',
+    success_url: 'https://casino.demo.icorepay.io/?successbonus1',
+    cancel_url: 'https://casino.demo.icorepay.io/?error=error',
+    ipn_url: 'https://casino.demo.icorepay.io/ipn',
     return_json: true,
   };
 
@@ -408,13 +395,8 @@ app.post('/editprofile', (req, res) => {
 });
 
 
-/*
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
-});*/
-
-// Start the HTTPS server
-server.listen(443, () => {
-  console.log('HTTPS server running on port 443');
 });
