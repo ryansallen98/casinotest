@@ -395,16 +395,7 @@ async function postIpn(req, res) {
                 try {
                     const status = 'paid'
                     const transactionUpdate = { paymentId: req.body.payment_id, status };
-                    const response = await axios.post('/transaction/update', {
-                        type,
-                        amount,
-                        audience,
-                      }, {
-                        headers: {
-                          'Content-Type': 'application/json',
-                          'Authorization': 'Bearer YourAuthToken',
-                        },
-                      });                    
+                    const response = await axios.post('http://52.90.89.221:5372/transaction/update', transactionUpdate);           
                     console.log(response.data);
                     res.send("OK");
                 } catch (error) {
