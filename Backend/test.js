@@ -395,7 +395,17 @@ async function postIpn(req, res) {
                 try {
                     const status = 'paid'
                     const transactionUpdate = { paymentId: req.body.payment_id, status };
-                    const response = await axios.post('http://52.90.89.221:5372/transaction/update', transactionUpdate);
+                    try {
+                        const response = await axios.post('http://52.90.89.221:5372/transaction/update', transactionUpdate, {
+                            headers: {
+                                Authorization: `Bearer ${JWT}`
+                            }
+                        });
+
+                        console.log(response.data); // Assuming you want to log the response data
+                    } catch (error) {
+                        console.error(error);
+                    }
                     console.log(response.data);
                     res.send("OK");
                 } catch (error) {
@@ -443,5 +453,4 @@ app.listen(port, () => {
 // Start the server
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
-  });
-  
+});
