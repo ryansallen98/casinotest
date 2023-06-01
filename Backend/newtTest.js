@@ -12,7 +12,7 @@ const https = require('https');
 const fs = require("fs");
 
 const app = express();
-const uri = 'https://pay.janex1.org/v1?';
+const uri = 'https://test.icorepay.io/v1?';
 
 // create jwa object
 const algorithm = 'ES256';
@@ -30,13 +30,13 @@ console.log("decodedChain", decodedChain);
 const port = process.env.PORT || 80;
 
 // Set up options for the HTTPS server
-const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/fullchain.pem')
-};
+// const options = {
+//    key: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/privkey.pem'),
+//    cert: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/fullchain.pem')
+//};
 
 // Set up the HTTPS server
-const server = https.createServer(options, app);
+// const server = https.createServer(options, app);
 
 // Set up JSON body parsing middleware with the specified MIME types and maximum
 // request body size
@@ -395,7 +395,7 @@ async function postIpn(req, res) {
                 try {
                     const status = 'paid'
                     const transactionUpdate = { paymentId: req.body.payment_id, status };
-                    const response = await axios.post('http://3.86.179.199:5372/update-transaction', transactionUpdate);
+                    const response = await axios.post('http://52.90.89.221:5372/transaction/update', transactionUpdate);           
                     console.log(response.data);
                     res.send("OK");
                 } catch (error) {
@@ -407,6 +407,11 @@ async function postIpn(req, res) {
 }
 
 app.post("/ipn", postIpn);
+
+app.post('/new', async (req, res) => {
+    console.log(req.body)
+    res.status(200).send('API Triggered');
+})
 
 
 app.post('/editprofile', (req, res) => {
@@ -430,6 +435,13 @@ app.listen(port, () => {
 });*/
 
 // Start the HTTPS server
-server.listen(443, () => {
-    console.log('HTTPS server running on port 443');
-});
+//server.listen(443, () => {
+//    console.log('HTTPS server running on port 443');
+//});
+
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
+  
