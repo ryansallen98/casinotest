@@ -30,13 +30,13 @@ console.log("decodedChain", decodedChain);
 const port = process.env.PORT || 80;
 
 // Set up options for the HTTPS server
-// const options = {
-//    key: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/privkey.pem'),
-//    cert: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/fullchain.pem')
-//};
+const options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/casino.icorepay.io/fullchain.pem')
+};
 
 // Set up the HTTPS server
-// const server = https.createServer(options, app);
+const server = https.createServer(options, app);
 
 // Set up JSON body parsing middleware with the specified MIME types and maximum
 // request body size
@@ -445,12 +445,12 @@ app.listen(port, () => {
 });*/
 
 // Start the HTTPS server
-//server.listen(443, () => {
-//    console.log('HTTPS server running on port 443');
-//});
+server.listen(443, () => {
+    console.log('HTTPS server running on port 443');
+});
 
 
 // Start the server
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-});
+//app.listen(port, () => {
+//    console.log(`Server listening on port ${port}`);
+//});
