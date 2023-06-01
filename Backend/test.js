@@ -158,9 +158,9 @@ app.post('/deposit', async (req, res) => {
         order_key: code,
         merchant_addr: req.body.data.token,
         amount: netAmountForDollar,
-        success_url: 'https://casino.icorepay.io/?success=' + req.body.data.amount,
-        cancel_url: 'https://casino.icorepay.io/?error=error',
-        ipn_url: 'https://casino.icorepay.io/ipn',
+        success_url: 'http://localhost/?success=' + req.body.data.amount,
+        cancel_url: 'http://localhost/?error=error',
+        ipn_url: 'http://localhost/ipn',
         return_json: true,
     };
 
@@ -395,7 +395,17 @@ async function postIpn(req, res) {
                 try {
                     const status = 'paid'
                     const transactionUpdate = { paymentId: req.body.payment_id, status };
-                    const response = await axios.post('http://3.86.179.199:5372/update-transaction', transactionUpdate);
+                    try {
+                        const response = await axios.post('http://52.90.89.221:5372/transaction/update', transactionUpdate, {
+                            headers: {
+                                Authorization: `Bearer ${JWT}`
+                            }
+                        });
+
+                        console.log(response.data); // Assuming you want to log the response data
+                    } catch (error) {
+                        console.error(error);
+                    }
                     console.log(response.data);
                     res.send("OK");
                 } catch (error) {
@@ -443,5 +453,4 @@ app.listen(port, () => {
 // Start the server
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
-  });
-  
+});
