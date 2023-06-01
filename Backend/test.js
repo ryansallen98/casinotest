@@ -158,9 +158,9 @@ app.post('/deposit', async (req, res) => {
         order_key: code,
         merchant_addr: req.body.data.token,
         amount: netAmountForDollar,
-        success_url: 'http://localhost/?success=' + req.body.data.amount,
-        cancel_url: 'http://localhost/?error=error',
-        ipn_url: 'http://localhost/ipn',
+        success_url: 'https://casino.icorepay.io/?success=' + req.body.data.amount,
+        cancel_url: 'https://casino.icorepay.io/?error=error',
+        ipn_url: 'https://casino.icorepay.io/ipn',
         return_json: true,
     };
 
